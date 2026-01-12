@@ -1,0 +1,11 @@
+/* Elimina el fondo blanco del toast externo de sonner y cualquier sombra extra */
+.sonner-toast, .sonner-toast[data-type="custom"] {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.sonner-toast .sonner-content {
+  background: transparent !important;
+  box-shadow: none !important;
+}
