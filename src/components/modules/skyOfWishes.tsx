@@ -237,7 +237,7 @@ const SkyOfWishes = () => {
           color: '#fff',
           border: '1px solid #f59e42',
         },
-        icon: <span className="ml-2"><Sparkles className="text-orange-300" size={22} /></span>,
+        icon: <span className="ml-2"><Sparkles className="text-orange-300" size={22} width={22} height={22} /></span>,
       });
     } else if (data) {
       const visualWish = augmentWishData({ ...(data as Wish), styleIndex: selectedStyle });
@@ -269,7 +269,7 @@ const SkyOfWishes = () => {
 
       <div className="absolute top-10 right-10 md:right-20 opacity-80">
         <div className="relative">
-          <Moon size={100} className="text-yellow-100 fill-yellow-100" />
+          <Moon size={100} width={100} height={100} className="text-yellow-100 fill-yellow-100" />
           <div className="absolute inset-0 bg-yellow-100/30 blur-2xl rounded-full" />
         </div>
       </div>
@@ -293,50 +293,72 @@ const SkyOfWishes = () => {
           className="rounded-full border border-orange-400 bg-transparent hover:bg-orange-50/10 text-orange-300 px-6 py-2 font-medium transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-orange-300/40 focus:ring-offset-2 shadow-none text-base"
           onClick={() => setOpen(true)}
         >
-          <Sparkles size={16} className="text-orange-300" />
+          <Sparkles size={16} width={16} height={16} className="text-orange-300" />
           Enviar un deseo al cielo
         </Button>
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent className="max-w-2xl bg-[#0f172a] border border-orange-400/10">
+          <DialogContent className="w-[95vw] max-w-2xl max-h-[90vh] overflow-y-auto bg-[#0f172a] border border-orange-400/10 rounded-xl md:rounded-lg p-4 md:p-6">
             <DialogHeader>
-              <DialogTitle className="text-center text-2xl font-serif text-orange-200 mb-2">Elige tu globo y escribe tu deseo</DialogTitle>
+              <DialogTitle className="text-center text-xl md:text-2xl font-serif text-orange-200 mb-2 md:mb-4">
+                Elige tu globo y escribe tu deseo
+              </DialogTitle>
             </DialogHeader>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
+
+            {/* Grid ajustado: 3 columnas en móvil con menos gap para ahorrar espacio vertical */}
+            <div className="grid grid-cols-3 gap-2 md:gap-6 mb-4 md:mb-6">
               {lanternGalleryData.map((item, idx) => (
                 <button
                   key={idx}
                   type="button"
-                  className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all shadow-xl focus:outline-none ${selectedStyle === idx ? 'border-orange-400 bg-orange-400/10' : 'border-white/10 bg-white/5 hover:border-orange-300/40'}`}
+                  // Padding reducido en móvil (p-2) vs escritorio (p-4)
+                  className={`flex flex-col items-center gap-1 md:gap-2 p-2 md:p-4 rounded-xl border-2 transition-all shadow-xl focus:outline-none ${
+                    selectedStyle === idx
+                      ? 'border-orange-400 bg-orange-400/10'
+                      : 'border-white/10 bg-white/5 hover:border-orange-300/40'
+                  }`}
                   onClick={() => setSelectedStyle(idx)}
                   aria-label={item.title}
                 >
-                  <div className="h-20 flex items-center justify-center">{item.icon}</div>
-                  <div className="text-center">
-                    <div className="font-serif text-base text-orange-100 mb-1">{item.title}</div>
-                    <div className="text-xs text-white/40">{item.desc}</div>
+                  {/* Altura del icono reducida en móvil */}
+                  <div className="h-12 md:h-20 flex items-center justify-center scale-75 md:scale-100">
+                    {item.icon}
+                  </div>
+                  <div className="text-center w-full">
+                    {/* Textos más pequeños en móvil */}
+                    <div className="font-serif text-xs md:text-base text-orange-100 mb-0.5 md:mb-1 truncate">
+                      {item.title}
+                    </div>
+                    {/* Descripción oculta en pantallas muy pequeñas si es necesario, o muy pequeña */}
+                    <div className="text-[10px] md:text-xs text-white/40 leading-tight hidden sm:block">
+                      {item.desc}
+                    </div>
                   </div>
                 </button>
               ))}
             </div>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3 items-center">
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3 items-center w-full">
               <Input
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
-                placeholder="Envia un deseo al cielo..."
-                className="border-0 bg-white/10 text-white placeholder:text-white-40 focus-visible:ring-0 focus-visible:ring-offset-0 h-10 w-full"
+                placeholder="Envía un deseo al cielo..."
+                className="border-0 bg-white/10 text-white placeholder:text-white/40 focus-visible:ring-1 focus-visible:ring-orange-400/50 h-12 md:h-10 w-full text-base"
                 maxLength={100}
               />
-              <div className="flex gap-2 w-full justify-center">
+              
+              <div className="w-full">
                 <Button
                   type="submit"
                   disabled={isSending || !newMessage}
-                  className="rounded-full border border-indigo-400 bg-transparent hover:bg-indigo-50/10 text-indigo-300 px-6 py-2 font-medium transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-300/40 focus:ring-offset-2 shadow-none text-base flex items-center gap-2"
+                  // w-full en móvil para facilitar el clic
+                  className="w-full rounded-full border border-indigo-400 bg-transparent hover:bg-indigo-50/10 text-indigo-300 h-12 md:h-10 font-medium transition-colors duration-150 shadow-none text-base flex items-center justify-center gap-2"
                 >
-                  <Send size={16} className="text-indigo-300" /> Enviar deseo
+                  <Send size={18} width={18} height={18} className="text-indigo-300" /> Enviar deseo
                 </Button>
               </div>
             </form>
-            <p className="text-center text-white/20 text-xs mt-2 font-serif tracking-wide">
+
+            <p className="text-center text-white/20 text-[10px] md:text-xs mt-2 font-serif tracking-wide">
               Los deseos vuelan alto y brillan por siempre.
             </p>
           </DialogContent>

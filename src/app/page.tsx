@@ -53,11 +53,11 @@ export default function HomePage() {
         <MemoryTree />
       </section>
 
-      <section
+      {/* <section
         id="gallery"
         className="min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden"
       >
-      </section>
+      </section> */}
 
       <section 
         id="sky-of-wishes" 
