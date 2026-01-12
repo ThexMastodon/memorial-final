@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { X } from "lucide-react";
 import { toast } from "sonner";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 type Candle = {
   id: number;
@@ -258,60 +259,37 @@ export const WallOfLight = () => {
         )}
       </AnimatePresence>
 
-      <AnimatePresence>
-        {viewCandle && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-[#050505]/90 backdrop-blur-md"
-              onClick={() => setViewCandle(null)}
-            />
-            <motion.div 
-              layoutId={`candle-view-${viewCandle?.id}`}
-              className="relative z-10 max-w-md w-full text-center space-y-8 px-8 py-12"
-            >
-              <div className="flex justify-center">
-                <div className="relative w-16 h-24">
-                  <div className="absolute inset-0 bg-amber-500/30 blur-[40px] rounded-full" />
-                  <div className="w-full h-full animate-pulse">
-                    <CustomFlameIcon className="w-full h-full drop-shadow-[0_0_20px_rgba(251,191,36,0.5)]" />
-                  </div>
-                </div>
+      <Dialog open={!!viewCandle} onOpenChange={open => !open ? setViewCandle(null) : undefined}>
+        <DialogContent className="w-full max-w-sm sm:max-w-md mx-auto mt-12 text-center px-4 sm:px-8 py-8 sm:py-12 bg-neutral-900 border border-amber-500/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+          <div className="flex flex-col items-center mb-4">
+            <div className="relative w-16 h-24 mb-2">
+              <div className="absolute inset-0 bg-amber-500/30 blur-[40px] rounded-full" />
+              <div className="w-full h-full animate-pulse">
+                <CustomFlameIcon className="w-full h-full drop-shadow-[0_0_20px_rgba(251,191,36,0.5)]" />
               </div>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="space-y-6"
-              >
-                <p className="text-2xl md:text-3xl font-serif text-amber-50/90 leading-relaxed tracking-wide italic">
-                  "{viewCandle?.message}"
-                </p>
-
-                <div className="flex flex-col items-center gap-3">
-                  <div className="w-12 h-px bg-amber-500/30" />
-                    <p className="text-amber-500/70 uppercase tracking-[0.2em] text-xs font-medium">
-                      {viewCandle?.visitor_name}
-                    </p>
-                    <p className="text-amber-900/40 text-[10px] font-mono">
-                      {viewCandle && new Date(viewCandle.created_at).toLocaleDateString('es-MX', { dateStyle: 'long' })}
-                    </p>
-                </div>
-              </motion.div>
-
-              <button 
-                onClick={() => setViewCandle(null)}
-                className="absolute top-0 right-0 p-4 text-white/10 hover:text-white/50 transition-colors"
-              >
-                <X size={24} />
-              </button>
+            </div>
+            <p className="text-amber-200 font-semibold text-sm uppercase tracking-wide">
+              {viewCandle?.visitor_name}
+            </p>
+            <p className="text-amber-500/70 text-xs font-mono mb-2">
+              {viewCandle && new Date(viewCandle.created_at).toLocaleDateString('es-MX', { dateStyle: 'long' })}
+            </p>
+          </div>
+          <div className="flex-1 overflow-y-auto max-h-[50vh] flex items-center justify-center">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="w-full"
+            >
+              <div className="h-px w-16 bg-gradient-to-r from-transparent to-amber-500/40 mb-6 mx-auto" />
+              <p className="text-xl md:text-2xl font-serif text-amber-50/90 leading-relaxed tracking-wide italic text-center">
+                "{viewCandle?.message}"
+              </p>
             </motion.div>
           </div>
-        )}
-      </AnimatePresence>
+        </DialogContent>
+      </Dialog>
 
     </div>
   );
