@@ -395,9 +395,9 @@ const MemoryBranch = ({ data, index, onClick }: { data: Memory; index: number; o
         "w-full md:w-5/12 pl-12 md:pl-0 flex",
         isEven ? "md:justify-end md:mr-auto md:pr-12" : "md:justify-start md:ml-auto md:pl-12"
       )}>
-        <div className="group relative">
+        <div className="group relative w-65 md:w-auto">
           {/* Polaroid Style */}
-          <div className="relative w-full max-w-md bg-white rounded-lg shadow-xl border border-stone-200 pt-6 px-6 flex flex-col items-center cursor-pointer" style={{ paddingBottom: 0 }} onClick={onClick} tabIndex={0} role="button" aria-label="Ver polaroid grande">
+          <div className="relative w-full max-w-md bg-white rounded-lg shadow-xl border border-stone-200 pt-6 px-6  w-auto flex flex-col items-center cursor-pointer" style={{ paddingBottom: 0 }} onClick={onClick} tabIndex={0} role="button" aria-label="Ver polaroid grande">
             <div className="w-full bg-stone-100 rounded-md overflow-hidden mb-3 flex items-center justify-center" style={{ aspectRatio: '4/3' }}>
               <Image 
                 src={data.image_url}
