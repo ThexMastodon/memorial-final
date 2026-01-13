@@ -25,10 +25,10 @@ export const Hero = () => {
     <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/background.jpg"
+          src="/images/foto_portada.png"
           alt="Memorial Background"
           fill
-          className="object-cover opacity-60 grayscale-30"
+          className="object-cover opacity-100"
           priority
         />
 
@@ -44,7 +44,7 @@ export const Hero = () => {
           className="relative w-48 h-48 md:w-56 md:h-56 mb-8 rounded-full overflow-hidden border-2 border-white/20 shadow-2xl"
         >
           <Image
-            src="/images/portrait.jpg"
+            src="/images/foto_perfil.jpeg"
             alt="Retrato Memorial"
             fill
             className="object-cover"
